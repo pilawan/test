@@ -7,7 +7,7 @@ class Authen extends StatefulWidget {
   _AuthenState createState() => _AuthenState();
 }
 
-class _AuthenState extends State<Authen> {
+class _AuthenState extends State<Authen> with WidgetsBindingObserver {
 // Field
   Widget showlogo() {
     return Container(
@@ -15,6 +15,7 @@ class _AuthenState extends State<Authen> {
   }
 
 // Method
+
   Widget showAppName() {
     return Text(
       'kik tour',
@@ -39,11 +40,10 @@ class _AuthenState extends State<Authen> {
       child: Text('Sign Up'),
       onPressed: () {
         MaterialPageRoute materialPageRoute =
-            MaterialPageRoute(builder: (BuildContext context) {  
-              return Register();
-            }
-            );
-            Navigator.of(context).push(materialPageRoute);
+            MaterialPageRoute(builder: (BuildContext context) {
+          return Register();
+        });
+        Navigator.of(context).push(materialPageRoute);
       },
     );
   }
@@ -83,6 +83,44 @@ class _AuthenState extends State<Authen> {
         signUpbutton(),
       ],
     );
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    switch (state) {
+      case AppLifecycleState.inactive:
+      print('###### state inactive ####');
+     
+        break;
+        case AppLifecycleState.paused:
+        print('###### state paused ####');
+        
+        break;
+case AppLifecycleState.resumed:
+        print('###### state resumed ####'); 
+         
+        
+        break;
+      default:
+    }
+  }
+
+  //ทำงานหลังจากแอปทำงาน
+  @override
+  void initState() {
+    super.initState();
+ WidgetsBinding.instance.addObserver(this);
+ print('##### dispose  ####');
+  print('object');
+  }
+
+//ทำงาก่อนแอปจะพัก
+  @override
+  void dispose() {
+    super.dispose();
+    print('##### dispose  ####');
+     WidgetsBinding.instance.addObserver(this);
   }
 
   @override
